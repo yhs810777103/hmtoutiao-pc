@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <!-- <div>1233156</div> -->
+    <!-- 视图容器 -->
     <router-view></router-view>
   </div>
 </template>

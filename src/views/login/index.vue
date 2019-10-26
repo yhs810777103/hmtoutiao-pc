@@ -3,13 +3,13 @@
     <!-- <img src="../assets/login_bg.jpg" alt /> -->
     <el-card>
       <img src="../../assets/logo_index.png" alt />
-      <el-form ref="form" :model="logonFrom">
-        <el-form-item>
-          <el-input v-model="logonFrom.mobile" placeholder="请输入手机号"></el-input>
+      <el-form ref="loginFrom" :model="loginFrom" :rules="loginRules" status-icon>
+        <el-form-item prop="mobile">
+          <el-input v-model="loginFrom.mobile" placeholder="请输入手机号" ref="myInput"></el-input>
         </el-form-item>
-        <el-form-item>
+        <el-form-item prop="code">
           <el-input
-            v-model="logonFrom.code"
+            v-model="loginFrom.code"
             placeholder="请输入验证码"
             style="width:240px;margin-right:8px"
           ></el-input>
@@ -19,7 +19,7 @@
           <el-checkbox :value="true">我已阅读并同意用户协议和隐私条款</el-checkbox>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" style="width:100%">登录</el-button>
+          <el-button type="primary" style="width:100%" @click="loginBtn(loginFrom)">登录</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -27,14 +27,52 @@
 </template>
 
 <script>
+// import { log } from 'util';
 export default {
   data () {
-    return {
-      logonFrom: {
-        mobile: '',
-        code: ''
+    const checkMobile = (rule, value, callback) => {
+      if (/^1[3-9]\d{9}$/.test(value)) {
+        callback()
+      } else {
+        callback(new Error('手机号格式错误'))
       }
     }
+    return {
+      loginFrom: {
+        mobile: '',
+        code: ''
+      },
+      loginRules: {
+        mobile: [
+          { required: true, message: '请输入手机号', trigger: 'blur' },
+          { validator: checkMobile, trigger: 'blur' }
+        ],
+        code: [{ required: true, message: '请输入验证码', trigger: 'blur' }]
+      }
+    }
+  },
+  methods: {
+    loginBtn (loginFrom) {
+      this.$refs['loginFrom'].validate(valid => {
+        if (valid) {
+          // console.log('OK')
+          this.$axios({
+            url: 'authorizations',
+            data: this.loginFrom,
+            method: 'post'
+          })
+            .then(result => {
+              this.$router.push('/')
+            })
+            .catch(() => {
+              this.$message.error('输入的手机号或验证码有误')
+            })
+        }
+      })
+    }
+  },
+  mounted () {
+    this.$refs.myInput.focus()
   }
 }
 </script>

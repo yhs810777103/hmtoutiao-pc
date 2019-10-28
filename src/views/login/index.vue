@@ -27,7 +27,7 @@
 </template>
 
 <script>
-// import { log } from 'util';
+import local from '@/utils/local.js'
 export default {
   data () {
     const checkMobile = (rule, value, callback) => {
@@ -47,26 +47,50 @@ export default {
           { required: true, message: '请输入手机号', trigger: 'blur' },
           { validator: checkMobile, trigger: 'blur' }
         ],
-        code: [{ required: true, message: '请输入验证码', trigger: 'blur' }]
+        code: [
+          { required: true, message: '请输入验证码', trigger: 'blur' },
+          { len: 6, message: '验证码为6个字符', trigger: 'blur' }
+        ]
       }
     }
   },
   methods: {
+    // 用promise方式发请求
+    //   loginBtn (loginFrom) {
+    //     this.$refs['loginFrom'].validate(valid => {
+    //       if (valid) {
+    //         // console.log('OK')
+    //         this.$axios({
+    //           url: 'authorizations',
+    //           data: this.loginFrom,
+    //           method: 'post'
+    //         })
+    //           .then(result => {
+    //             // console.log(result)
+    //             local.setUser(result.data.data)
+    //             this.$router.push('/')
+    //           })
+    //           .catch(() => {
+    //             this.$message.error('输入的手机号或验证码有误')
+    //           })
+    //       }
+    //     })
+    //   }
+
+    // 运用async和await写请求
     loginBtn (loginFrom) {
       this.$refs['loginFrom'].validate(valid => {
         if (valid) {
-          // console.log('OK')
-          this.$axios({
-            url: 'authorizations',
-            data: this.loginFrom,
-            method: 'post'
-          })
-            .then(result => {
-              this.$router.push('/')
-            })
-            .catch(() => {
-              this.$message.error('输入的手机号或验证码有误')
-            })
+          const login = async () => {
+            const a = await this.$axios.post('authorizations', this.loginFrom)
+            // const a = await this.$axios({
+            //   url: 'authorizations',
+            //   data: this.loginFrom,
+            //   method: 'post' })
+            local.setUser(a.data.data)
+            this.$router.push('/')
+          }
+          login()
         }
       })
     }

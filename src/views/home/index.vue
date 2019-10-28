@@ -3,6 +3,7 @@
     <el-aside :width="isSwitch?'200px':'64px'">
       <span class="logo" :class="{smallLogo:!isSwitch}"></span>
       <el-menu
+        class="el-menu-vertical-demo"
         default-active="/"
         background-color="#002033"
         text-color="#fff"
@@ -100,6 +101,7 @@ export default {
     }
     .smallLogo {
       background: url("../../assets/logo_admin_01.png") no-repeat center;
+      background-size: 36px auto;
     }
   }
   .el-header {

@@ -79,18 +79,13 @@ export default {
 
     // 运用async和await写请求
     loginBtn (loginFrom) {
-      this.$refs['loginFrom'].validate(valid => {
+      this.$refs['loginFrom'].validate(async valid => {
         if (valid) {
-          const login = async () => {
-            const a = await this.$axios.post('authorizations', this.loginFrom)
-            // const a = await this.$axios({
-            //   url: 'authorizations',
-            //   data: this.loginFrom,
-            //   method: 'post' })
-            local.setUser(a.data.data)
+          try {
+            const res = await this.$axios.post('authorizations', this.loginFrom)
+            local.setUser(res.data.data)
             this.$router.push('/')
-          }
-          login()
+          } catch (e) { this.$message.error('输入的手机号或验证码有误') }
         }
       })
     }
@@ -109,18 +104,18 @@ export default {
   position: absolute;
   left: 0;
   top: 0;
-}
-.el-card {
-  width: 400px;
-  height: 340px;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  img {
-    width: 200px;
-    display: block;
-    margin: 0 auto 20px;
+  .el-card {
+    width: 400px;
+    height: 340px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    img {
+      width: 200px;
+      display: block;
+      margin: 0 auto 20px;
+    }
   }
 }
 </style>

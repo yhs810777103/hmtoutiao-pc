@@ -7,6 +7,8 @@ import 'element-ui/lib/theme-chalk/index.css'
 import router from '@/router'
 import axios from '@/api'
 
+import '@/styles/index.less'
+
 // 全局使用vue插件的封装
 import VuePlugin from '@/components/index.js'
 Vue.use(VuePlugin)

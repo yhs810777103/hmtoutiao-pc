@@ -1,12 +1,20 @@
 import axios from 'axios'
 import local from '@/utils/local.js'
 import router from '@/router/index.js'
+import JSONBIG from 'json-bigint'
 axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0/'
+axios.defaults.transformResponse = [(data) => {
+  try {
+    return JSONBIG.parse(data)
+  } catch (e) {
+    return data
+  }
+}]
 
 // 设置默认请求头
-if (local.getUser()) {
-  axios.defaults.headers.Authorization = `Bearer ${local.getUser().token}`
-}
+// if (local.getUser()) {
+//   axios.defaults.headers.Authorization = `Bearer ${local.getUser().token}`
+// }
 
 // 请求拦截器
 // 登录成功,跳转页面,重新发请求时,请求头没有token,这时需要在每一次请求前的时候，获取token，设置token

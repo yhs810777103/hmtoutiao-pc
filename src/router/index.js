@@ -1,14 +1,15 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
-import login from '../views/login/index.vue'
-import Home from '@/views/home'
-import welcomeHome from '@/views/welcomehome'
-import notFound from '@/views/404'
-import local from '@/utils/local'
-import Article from '@/views/article'
-import Image from '@/views/image'
-import Publish from '@/views/publish'
-import Comment from '@/views/comment'
+import VueRouter from 'vue-router' // 路由
+import login from '../views/login/index.vue' // 登录页面
+import Home from '@/views/home' // 主页
+import welcomeHome from '@/views/welcomehome' // 欢迎页面
+import notFound from '@/views/404' // 404页面
+import local from '@/utils/local' // 存储用户信息的工具
+import Article from '@/views/article' // 内容管理
+import Image from '@/views/image' // 素材管理
+import Publish from '@/views/publish' // 发布文章
+import Comment from '@/views/comment' // 评论管理
+import Setting from '@/views/setting' // 个人设置
 Vue.use(VueRouter)
 const router = new VueRouter({
   routes: [{
@@ -25,15 +26,22 @@ const router = new VueRouter({
     {
       path: '/article',
       component: Article
-    }, {
+    },
+    {
       path: '/image',
       component: Image
-    }, {
+    },
+    {
       path: '/publish',
       component: Publish
-    }, {
+    },
+    {
       path: '/comment',
       component: Comment
+    },
+    {
+      path: '/setting',
+      component: Setting
     }
     ]
   },

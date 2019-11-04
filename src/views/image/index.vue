@@ -13,7 +13,7 @@
           <el-radio-button :label="true">收藏</el-radio-button>
         </el-radio-group>
         <!-- 按钮组件 -->
-        <el-button @click="dialogVisible=true" type="success" size="small" style="float:right">添加素材</el-button>
+        <el-button @click="clickAdd" type="success" size="small" style="float:right">添加素材</el-button>
       </div>
       <div class="imgList">
         <div class="img" v-for="item in images" :key="item.id">
@@ -132,15 +132,19 @@ export default {
       })
     },
     // 文件上传成功时的钩子函数
-    handleAvatarSuccess (res, file) {
+    handleAvatarSuccess (res) {
       // console.log(res)
       this.imageUrl = res.data.url
       window.setTimeout(() => {
         this.$message.success('图片添加成功')
         this.dialogVisible = false
         this.getImages()
-        this.imageUrl = null
       }, 1000)
+    },
+    // 点击添加素材按钮执行的函数
+    clickAdd () {
+      this.dialogVisible = true
+      this.imageUrl = null
     }
   }
 }

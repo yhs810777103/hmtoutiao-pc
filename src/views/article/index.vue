@@ -177,7 +177,7 @@ export default {
     // 发请求获取文章列表
     async getArticles () {
       const { data: { data } } = await this.$axios.get('articles', { params: this.reqParams })
-      // console.log({ data: { data } })
+      console.log(data)
       this.articleList = data.results
       // 文章的总条数
       this.total = data.total_count
@@ -195,11 +195,23 @@ export default {
       this.$router.push({ path: '/publish', query: { id: id } })
     },
     // 删除文章(id值过大,js处理时会有误差,)
-    async delArticle (id) {
-      console.log(id)
-      await this.$axios.delete(`articles/${id}`)
-      this.$message.success('删除文章成功')
-      this.getArticles()
+    delArticle (id) {
+      // console.log(id)
+      // 弹框组件
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '温馨提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        await this.$axios.delete(`articles/${id}`)
+        this.$message.success('删除文章成功')
+        this.getArticles()
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
     }
   }
 }

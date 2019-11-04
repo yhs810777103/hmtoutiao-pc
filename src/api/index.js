@@ -3,6 +3,7 @@ import local from '@/utils/local.js'
 import router from '@/router/index.js'
 import JSONBIG from 'json-bigint'
 axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0/'
+// 转换数据
 axios.defaults.transformResponse = [(data) => {
   try {
     return JSONBIG.parse(data)

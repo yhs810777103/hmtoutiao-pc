@@ -9,6 +9,7 @@ import Article from '@/views/article' // 内容管理
 import Image from '@/views/image' // 素材管理
 import Publish from '@/views/publish' // 发布文章
 import Comment from '@/views/comment' // 评论管理
+import Fans from '@/views/fans'
 import Setting from '@/views/setting' // 个人设置
 Vue.use(VueRouter)
 const router = new VueRouter({
@@ -38,6 +39,9 @@ const router = new VueRouter({
     {
       path: '/comment',
       component: Comment
+    }, {
+      path: '/fans',
+      component: Fans
     },
     {
       path: '/setting',

@@ -68,12 +68,16 @@
 </template>
 
 <script>
+import eventBus from '@/views/eventBus.js'
 import local from '@/utils/local.js'
 export default {
   data () {
     return {
       isSwitch: true,
-      userInfo: {}
+      userInfo: {
+        name: null,
+        photo: null
+      }
     }
   },
   methods: {
@@ -99,6 +103,13 @@ export default {
     // console.log(user)
     this.userInfo.name = user.name
     this.userInfo.photo = user.photo
+    // 非父子传值 绑定自定义事件,事件对应的函数可以接收数据
+    eventBus.$on('updateName', (name) => {
+      this.userInfo.name = name // 个人设置里保存修改的名字后重新赋值给头部的用户名
+    })
+    eventBus.$on('togglePhoto', (photo) => {
+      this.userInfo.photo = photo// 个人设置里保存修改的图片后重新赋值给头部的用户头像
+    })
   }
 }
 </script>
